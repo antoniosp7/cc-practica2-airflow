@@ -28,17 +28,7 @@ def get_data():
     client = pymongo.MongoClient("mongodb+srv://admin:admin@cluster0.pqrdu.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
     db = client.test
 
-    collection = client["Prediction24API2"]["Datos"]
-
-    df = pd.read_json('prediction24.json')
-
-    data = json.dumps(df) 
-
-    dataframe = pd.DataFrame(data=data)
-
-    dictMongo = dataframe.to_dict("registers")
-
-    collection.insert_one({'data' : dictMongo}).inserted_id
+    collection = db.
 
 
 dag = DAG(

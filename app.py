@@ -96,8 +96,46 @@ def getTemperatures48():
 
     fc = pd.DataFrame(fc).to_json()
 
+    
+
     # fc contains the forecasting for the next 24 hours.
     return fc
+
+@app.route('/horas')
+def getTemperatur():
+
+    tem = pd.read_json('prediction72temp.json')
+    hum = pd.read_json('predictionhum72.json')
+
+
+    temp = []
+    humidity = []
+
+    hum2 = json.loads(hum.to_json())
+    tem2 = json.loads(tem.to_json())
+
+    hum2 = hum2["0"]
+    tem2 = tem2["0"]
+    for i in hum2:
+        temp.append(tem2[i])
+        humidity.append(hum2[i])
+
+
+    print(temp)
+    print(humidity)
+
+    jsonList = []
+
+    for i in range(0,72):
+        jsonList.append({"hour": i,"temperature" : temp[i], "humidity" : humidity[i]})
+
+    
+    #fin = json.dumps(jsonList, indent = 1)
+
+    with open('prediction72.json', 'w') as outfile:
+        json.dump(jsonList, outfile)
+
+    #return item_dict
 
 @app.route('/72horas')
 def getTemperatures72():
