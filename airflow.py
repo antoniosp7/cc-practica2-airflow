@@ -4,6 +4,11 @@ from airflow.operators.bash_operator import BashOperator
 from airflow.operators.python_operator import PythonOperator
 from airflow.utils.dates import days_ago
 
+import pymongo
+
+import pandas as pd 
+
+
 default_args = {
     'owner': 'airflow',
     'depends_on_past': False,
@@ -25,7 +30,9 @@ def get_data():
 
     collection = client["Prediction24API2"]["Datos"]
 
-    data = pd.read_json('prediction24.json')
+    df = pd.read_json('prediction24.json')
+
+    data = json.dumps(df) 
 
     dataframe = pd.DataFrame(data=data)
 

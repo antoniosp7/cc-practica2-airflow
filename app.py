@@ -49,11 +49,23 @@ def getTemperatures24():
 
     #item_dict = json.loads(fc)
 
-    df = pd.read_json('prediction24.json')
+    data = pd.read_json('prediction24.json')
 
-    print(len(df))
+    client = pymongo.MongoClient("mongodb+srv://admin:admin@cluster0.pqrdu.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+    db = client.test
 
-    ret = pd.DataFrame(df).to_json()
+    print(data)
+
+    collection = client["Prediction24API2"]["Datos1"]
+
+    dataframe = pd.DataFrame(data=data)
+
+    dictMongo = dataframe.to_dict("registers")
+
+    collection.insert_one({'data' : dictMongo}).inserted_id
+
+
+    ret = pd.DataFrame(data).to_json()
 
     return ret
 
