@@ -28,7 +28,8 @@ def get_data():
     client = pymongo.MongoClient("mongodb+srv://admin:admin@cluster0.pqrdu.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
     db = client.test
 
-    collection = db.
+    data = pd.read_json('prediction72.json')
+    ret = pd.DataFrame(data).to_json()
 
 
 dag = DAG(
